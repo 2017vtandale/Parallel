@@ -1,0 +1,27 @@
+//
+// Torbert, 4 Sept 2015
+//
+#include <stdio.h>
+//
+int main()
+{
+	FILE* fin = fopen( "decodeME.txt" , "r" ) ;
+	//
+	char  msg[10101] ;
+	//
+	int   numbytes ;
+	//
+	numbytes = fread( msg , 1 , 10000 , fin ) ;
+	//
+	msg[numbytes] = '\0' ; // null character
+	//
+	printf( "%s\n" , msg ) ;
+	//
+	printf( "%d\n" , numbytes ) ;
+	printf( "\n" ) ;
+	//
+	return 0 ;
+}
+//
+// end of file
+//
