@@ -1,5 +1,6 @@
 //Vishal Tandale pd 5
 #include <stdio.h>
+#include <math.h>
 
 int main(){
   // printf("%s","bump");
@@ -36,13 +37,15 @@ int main(){
   numBytes = fread(&ch,sizeof(char),1,fin);
   double huffcount = 0;
   double asciicount = 0;
-  int freqtable[127];
+  double freqtable[127];
+  double frequencies[127];
   int used[127];
-  for(int i =0;i<sizeof(freqtable);i++){
+  for(int i =0;i<127;i++){
     freqtable[i]=0;
-    used = -1;
+    used[i] = -1;
+    frequencies[i] =0;
   }
-int count=0;
+  int count=0;
   while(numBytes!=0){
     pos=1;
     while(1){
@@ -52,14 +55,29 @@ int count=0;
       if(tree[pos]-'\e'!=0){
         printf( "%c" , tree[pos] ) ;
         freqtable[tree[pos]]+=1;
-        asciicount+=8;
+        if(freqtable[tree[pos]]==1){
         used[count] = tree[pos];
+        }
         count+=1;
         break;
       }
     }
   }
-  printf("\n");
-  printf("%f\n",(asciicount-huffcount)/asciicount);
+count-=1;
+huffcount-=1;
+freqtable[tree[pos]]-=1;
+  printf("\n%d\n",count);
+  double shannon =0;
+  for(int i =0;i<127;i++){
+    if(used[i]!=-1){
+    printf("\n%d: %f",used[i],freqtable[used[i]]);
+    // printf("%f\n",freqtable[used[i]]);
+    frequencies[used[i]] = (double) freqtable[used[i]]/count;
+    shannon+= -1*log(frequencies[used[i]])/log(2)*freqtable[used[i]];
+  }}
+
+
+  printf("\n%f\n",shannon+96);
+  printf("\n%f\n",((count*8)-huffcount)/(count*8));
   return 0;
 }
