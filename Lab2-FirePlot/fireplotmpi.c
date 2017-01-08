@@ -122,7 +122,6 @@ int main(int argc , char* argv[]){
 		int Workers[size];
 		int count = 0;
 		P=0;
-		while(P<1){
 		for( j = 1 ; j < size ; j++ )
       {
         	P=PS[count];
@@ -137,7 +136,7 @@ int main(int argc , char* argv[]){
 				P = PS[count];
 				MPI_Recv( &nbt , 1 , MPI_DOUBLE , MPI_ANY_SOURCE , tag , MPI_COMM_WORLD , &status ) ;
 				j = status.MPI_SOURCE ;
-				printf( "%f\t%20.16f\n" , Workers[j],nbt);
+				printf( "%f\t%20.16f\n,%d\n" , Workers[j],nbt,count);
 				count+=1;
 				P = PS[count];
 				Workers[j] = P;
@@ -155,7 +154,6 @@ int main(int argc , char* argv[]){
         //printf("%d %d",numtrees, burntime);
 	    //nbt=burntime;
       }
-        }
 	}
     else{
         MPI_Recv( &P , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status );
