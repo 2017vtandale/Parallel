@@ -15,11 +15,12 @@ void PrintPlot(char* Plot[][W]){
 	}
 	printf("\n\n\n\n");
 }
-int RandomizePlot(char* Plot[][W],int Fire[],int numtrees){
+int RandomizePlot(char* Plot[][W],int Fire[]){
 	int par;
 	int count1 = 0;
 	int count =0;
-	numtrees= 0;
+	int numtrees= 0;
+	//printf("\n%d,%d\n",H,W);
 	for(int x = 0;x<H;x++){
 		for(int i =0;i<W;i++){
 			par = ((double)rand() / (double)RAND_MAX)<P;
@@ -91,7 +92,7 @@ int Lightup(char* Plot[][W], int Fire[], int numtrees){
 
 
 		}
-		//rintPlot(Plot);
+		//PrintPlot(Plot);
 		for(i = 0;i<H*W;i++)
 			Fire[i] = TFire[i];
 		//printf("%d\n",Fire[0]);
@@ -107,8 +108,7 @@ int main(int argc , char* argv[]){
   int        tag = 0 ;
 	//Other variables
 	int iter, x, i, j, k;
-	double nbt;
-	double data[3];
+	double nbt, data;
 
 	//MPI Initialization
 		MPI_Init(      &argc          , &argv ) ;
@@ -118,15 +118,15 @@ int main(int argc , char* argv[]){
 
 	if(rank ==0){
 		srand(time(NULL));
-		W=300;
-		H =300;
-		P = .05;
-		data[0] = W;
-		data[1] = H;
-		data[2] = P;
+		double PS[] = {0,.1,.2,.3,.4,.425,.45,.475,.5,.52,.54,.56,.58,.6,.61,.62,.63,.64,.65,.66,.67,.68,.705,.73,.78,.8,.9,.1};
+		while(P<1){
 		for( j = 1 ; j < size ; j++ )
       {
-         MPI_Send( &data , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
+          P=PS[j];
+         if(P>=1)
+            break;
+         MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
+         
       }
 		for( k = 1 ; k < size ; k++ )
       {
@@ -134,31 +134,37 @@ int main(int argc , char* argv[]){
          //
          j = status.MPI_SOURCE ;
          //
-         printf( "%d %d %20.16f\n" , j , size , nbt ) ;
+         printf( "%f\t%20.16f\n" , PS[j],nbt);
+        //printf("%d %d",numtrees, burntime);
+	    //nbt=burntime;
       }
+        }
 	}
     else{
-        MPI_Recv( &data , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status );
-        W = data[0];
-        H = data[1];
-        P = data[2];
+        MPI_Recv( &P , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status );
+        W = 300;
+        H = 300;
+        //printf("\n%d,%d,%f\n",W,H,P);
 	    char* Plot[H][W];
 	    int Fire[H*W];
 	    int numtrees =0;
 	    int burntime = 0;
-	    for(x=0;x<100;x++){
-	        numtrees = 0;
-	        for(i = 0;i<size;i++){
+	    int Trials = 100;
+	    for(x=0;x<Trials;x++){
+	        for(i = 0;i<H*W;i++){
 	            Fire[i] = -1;
 	        }
-	        numtrees = RandomizePlot(Plot, Fire,numtrees );
-	        burntime+=Lightup(Plot,Fire,numtrees);
+        
+        numtrees = RandomizePlot(Plot, Fire);
+	    burntime+=Lightup(Plot,Fire,numtrees);
+        }
+        nbt = (double)((((double)burntime/(double)Trials))/(double)W);
         MPI_Send( &nbt , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD ) ;
     }
 
 
 
-
+MPI_Finalize() ;
 
 	// while(P<1.0){
 	// 	burntime = 0;
