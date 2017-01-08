@@ -119,23 +119,39 @@ int main(int argc , char* argv[]){
 	if(rank ==0){
 		srand(time(NULL));
 		double PS[] = {0,.1,.2,.3,.4,.45,.5,.54,.56,.565,.57,.575,.58,.585,.59,.595,.6,.61,.62,.63,.64,.65,.66,.67,.68,.705,.73,.78,.8,.9,.1};
+		int Workers[size];
+		int count = 0;
 		P=0;
 		while(P<1){
 		for( j = 1 ; j < size ; j++ )
       {
-          P=PS[j];
-         if(P>=1)
+        	P=PS[count];
+         if(count>sizeof(PS))
             break;
          MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
-         
+				 Workers[j] = P;
+				 count+=1
+
       }
+			while(count<sizeof(PS)){
+				P = PS[count];
+				MPI_Recv( &nbt , 1 , MPI_DOUBLE , MPI_ANY_SOURCE , tag , MPI_COMM_WORLD , &status ) ;
+				j = status.MPI_SOURCE ;
+				printf( "%f\t%20.16f\n" , Workers[j],nbt);
+				count+=1;
+				P = PS[count];
+				Workers[j] = P;
+				MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
+
+			}
 		for( k = 1 ; k < size ; k++ )
       {
          MPI_Recv( &nbt , 1 , MPI_DOUBLE , MPI_ANY_SOURCE , tag , MPI_COMM_WORLD , &status ) ;
          //
          j = status.MPI_SOURCE ;
          //
-         printf( "%f\t%20.16f\n" , PS[j],nbt);
+         printf( "%f\t%20.16f\n" , Workers[j],nbt);
+
         //printf("%d %d",numtrees, burntime);
 	    //nbt=burntime;
       }
@@ -155,7 +171,7 @@ int main(int argc , char* argv[]){
 	        for(i = 0;i<H*W;i++){
 	            Fire[i] = -1;
 	        }
-        
+
         numtrees = RandomizePlot(Plot, Fire);
 	    burntime+=Lightup(Plot,Fire,numtrees);
         }
