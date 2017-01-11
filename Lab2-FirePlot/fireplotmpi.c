@@ -118,44 +118,56 @@ int main(int argc , char* argv[]){
 
 	if(rank ==0){
 		srand(time(NULL));
-		double PS[] = {0,.1,.2,.3,.4,.45,.5,.54,.56,.565,.57,.575,.58,.585,.59,.595,.6,.61,.62,.63,.64,.65,.66,.67,.68,.705,.73,.78,.8,.9,.1};
+		//double PS[] = {0,.1,.2,.8,.9,1};
+		double PS[] = {0,.1,.2,.3,.4,.45,.5,.54,.56,.565,.57,.575,.58,.585,.59,.595,.6,.61,.62,.63,.64,.65,.66,.67,.68,.705,.73,.78,.8,.9,1};
 		double Workers[size];
-		int count = 0;
+		int count = -1;;
 		P=0;
+		//printf("%w",sizeof(PS));
 		for( j = 1 ; j < size ; j++ )
       {
+        count+=1;
         	P=PS[count];
          if(count>sizeof(PS))
             break;
          MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
 		 Workers[j] = P;
-	     count+=1;
+		 //printf("\n%d,%f\n",j,P);
+	     
 
       }
-			while(count<sizeof(PS)){
-				P = PS[count];
+			while(PS[count]<1){
 				MPI_Recv( &nbt , 1 , MPI_DOUBLE , MPI_ANY_SOURCE , tag , MPI_COMM_WORLD , &status ) ;
 				j = status.MPI_SOURCE ;
-				printf( "%f\t%20.16f\n,%d\n" , Workers[j],nbt,count);
+				printf( "%f\t%20.16f\n" , Workers[j],nbt);
 				count+=1;
 				P = PS[count];
 				Workers[j] = P;
-				MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
+				//printf("\n%d,%f\n",j,P);
+                MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
+                
 
 			}
 		for( k = 1 ; k < size ; k++ )
       {
+        printf("Made it");
          MPI_Recv( &nbt , 1 , MPI_DOUBLE , MPI_ANY_SOURCE , tag , MPI_COMM_WORLD , &status ) ;
          //
          j = status.MPI_SOURCE ;
+         P = -1.0;
          //
          printf( "%f\t%20.16f\n" , Workers[j],nbt);
-
+        //MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
         //printf("%d %d",numtrees, burntime);
 	    //nbt=burntime;
+	    
       }
+      exit(0);  
+      MPI_Finalize();
+    
 	}
     else{
+        while(P>=0){
         MPI_Recv( &P , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status );
         W = 300;
         H = 300;
@@ -166,9 +178,9 @@ int main(int argc , char* argv[]){
 	    int burntime = 0;
 	    int Trials = 100;
 	    for(x=0;x<Trials;x++){
-	        for(i = 0;i<H*W;i++){
-	            Fire[i] = -1;
-	        }
+	        for(int i =0;i<H*W;i++){
+            Fire[i] = -1;
+            }
 
         numtrees = RandomizePlot(Plot, Fire);
 	    burntime+=Lightup(Plot,Fire,numtrees);
@@ -176,10 +188,10 @@ int main(int argc , char* argv[]){
         nbt = (double)((((double)burntime/(double)Trials))/(double)W);
         MPI_Send( &nbt , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD ) ;
     }
+    }
 
 
 
-MPI_Finalize() ;
 
 	// while(P<1.0){
 	// 	burntime = 0;
