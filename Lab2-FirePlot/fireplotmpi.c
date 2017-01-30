@@ -157,7 +157,7 @@ int main(int argc , char* argv[]){
          P = -1.0;
          //
          printf( "%f\t%20.16f\n" , Workers[j],nbt);
-        //MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
+        MPI_Send( &P , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
         //printf("%d %d",numtrees, burntime);
 	    //nbt=burntime;
 	    
@@ -169,6 +169,8 @@ int main(int argc , char* argv[]){
     else{
         while(P>=0){
         MPI_Recv( &P , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status );
+        if(P<0)
+            break;
         W = 300;
         H = 300;
         //printf("\n%d,%d,%f\n",W,H,P);
