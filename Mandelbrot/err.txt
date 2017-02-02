@@ -1,0 +1,82 @@
+mandelbrotslow.c:20:6: error: variable has incomplete type 'void'
+void create;
+     ^
+mandelbrotslow.c:73:4: warning: 'glutSwapBuffers' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutSwapBuffers(); // single buffering... call glFlush();
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:448:22: note: 'glutSwapBuffers' has been explicitly marked deprecated here
+extern void APIENTRY glutSwapBuffers(void) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:80:4: warning: 'gluOrtho2D' is deprecated: first deprecated in macOS 10.9 - "Use GLKMatrix4MakeOrtho" [-Wdeprecated-declarations]
+   gluOrtho2D(0.0,1.0*Width,0.0,1.0*Height); // always a square
+   ^
+/System/Library/Frameworks/OpenGL.framework/Headers/glu.h:276:13: note: 'gluOrtho2D' has been explicitly marked deprecated here
+extern void gluOrtho2D (GLdouble left, GLdouble right, GLdouble bottom, GLdouble top) OPENGL_DEPRECATED_MSG(10_0, 10_9, "Use GLKMatrix4MakeOrtho");
+            ^
+mandelbrotslow.c:113:6: error: redefinition of 'create' as different kind of symbol
+void create(){
+     ^
+mandelbrotslow.c:20:6: note: previous definition is here
+void create;
+     ^
+mandelbrotslow.c:127:5: warning: 'glutPostRedisplay' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+    glutPostRedisplay();
+    ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:444:22: note: 'glutPostRedisplay' has been explicitly marked deprecated here
+extern void APIENTRY glutPostRedisplay(void) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:135:5: warning: 'glutInit' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+    glutInit(&argc,argv);
+    ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:431:22: note: 'glutInit' has been explicitly marked deprecated here
+extern void APIENTRY glutInit(int *argcp, char **argv) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:136:4: warning: 'glutInitDisplayMode' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:432:22: note: 'glutInitDisplayMode' has been explicitly marked deprecated here
+extern void APIENTRY glutInitDisplayMode(unsigned int mode) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:137:4: warning: 'glutInitWindowSize' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutInitWindowSize(Width,Height);
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:437:22: note: 'glutInitWindowSize' has been explicitly marked deprecated here
+extern void APIENTRY glutInitWindowSize(int width, int height) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:138:4: warning: 'glutInitWindowPosition' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutInitWindowPosition(100,50);
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:436:22: note: 'glutInitWindowPosition' has been explicitly marked deprecated here
+extern void APIENTRY glutInitWindowPosition(int x, int y) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:139:4: warning: 'glutCreateWindow' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutCreateWindow("");
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:441:21: note: 'glutCreateWindow' has been explicitly marked deprecated here
+extern int APIENTRY glutCreateWindow(const char *title) OPENGL_DEPRECATED(10_0, 10_9);
+                    ^
+mandelbrotslow.c:154:4: warning: 'glutReshapeFunc' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutReshapeFunc(reshapefunc);
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:506:22: note: 'glutReshapeFunc' has been explicitly marked deprecated here
+extern void APIENTRY glutReshapeFunc(void (*func)(int width, int height)) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:155:4: warning: 'glutMouseFunc' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutMouseFunc(mousefunc);
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:508:22: note: 'glutMouseFunc' has been explicitly marked deprecated here
+extern void APIENTRY glutMouseFunc(void (*func)(int button, int state, int x, int y)) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:156:4: warning: 'glutKeyboardFunc' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutKeyboardFunc(keyfunc);
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:507:22: note: 'glutKeyboardFunc' has been explicitly marked deprecated here
+extern void APIENTRY glutKeyboardFunc(void (*func)(unsigned char key, int x, int y)) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+mandelbrotslow.c:158:4: warning: 'glutMainLoop' is deprecated: first deprecated in macOS 10.9 [-Wdeprecated-declarations]
+   glutMainLoop();
+   ^
+/System/Library/Frameworks/GLUT.framework/Headers/glut.h:438:22: note: 'glutMainLoop' has been explicitly marked deprecated here
+extern void APIENTRY glutMainLoop(void) OPENGL_DEPRECATED(10_0, 10_9);
+                     ^
+12 warnings and 2 errors generated.
