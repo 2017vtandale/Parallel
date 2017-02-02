@@ -86,6 +86,8 @@ void reshapefunc(int wscr,int hscr){
    glMatrixMode(GL_MODELVIEW);
 }
 void zoom(int x, int y){
+  time_t seconds;
+  seconds = time(NULL);
   realx = boundxmin + 2*xsize*((double) x)/(1.0*Height);
   realy = boundymin + 2*ysize*((double) y)/(1.0*Width);
   //printf("%f,%f\n",realx,realy);
@@ -96,6 +98,8 @@ void zoom(int x, int y){
   boundymin = realy - ysize;
   boundymax = realy + ysize;
   printf("%f-%f\t%f-%f\n",boundxmin,boundxmax,boundymin,boundymax);
+  seconds = time(NULL)- seconds;
+  printf("Time Taken: %ld\n", seconds);
   create();
 }
 void mousefunc(int button,int state,int xscr,int yscr){
