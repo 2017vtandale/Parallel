@@ -68,9 +68,9 @@ void displayfunc(){
    {
       for( y = 0 ; y <Height; y++ )
       {
-        pixel = pic[x][y]*1.0/maxstep;
+        pixel =1 -  pic[x][y]*1.0/maxstep;
 
-        glColor3f( r*pixel , g*pixel , b*pixel ) ;
+        glColor3f( r*pixel ,(g)*pixel ,(b)*pixel ) ;
          glBegin(GL_POINTS);
          glVertex2f(x,y);
          glEnd();
@@ -119,21 +119,21 @@ void keyfunc(unsigned char key,int xscr,int yscr){
       create();
    }
    else if( key == 'r'){
-     r = 1;
-     g = 0;
-     b = 0;
+     r = 0;
+     g = 1;
+     b = 1;
      create();
    }
    else if (key == 'b'){
-     r=0;
-     g=0;
-     b=1;
+     r=1;
+     g=1;
+     b=0;
      create();
    }
    else if(key == 'g'){
-     r=0;
-     g=1;
-     b=0;
+     r=1;
+     g=0;
+     b=1;
      create();
    }
   else
