@@ -1,0 +1,8 @@
+To run in mac:
+gcc -framework OpenGL -framework GLUT -framework Cocoa mandelbrotslow.c
+mpicc -framework OpenGL -framework GLUT -framewrok Cocoa 2017vtandale.c
+
+To run on Linux:
+gcc -lGL -lGLU -lglut mandelbrotslow.c
+mpicc -lGL -lGLU -lglut 2017vtandale.c
+
